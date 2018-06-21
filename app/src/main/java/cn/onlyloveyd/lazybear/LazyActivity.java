@@ -1,8 +1,8 @@
 package cn.onlyloveyd.lazybear;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.gs.keyboard.SecurityKeyboard;
 
@@ -17,6 +17,6 @@ public class LazyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityLazyBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_lazy);
 
-        securityKeyboard = new SecurityKeyboard(binding.container);
+        securityKeyboard = new SecurityKeyboard(binding.loginLayout);
     }
 }
