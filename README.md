@@ -6,7 +6,7 @@ Letter, Number, Symbol.
 ### Gradle
 **Step 1.** Add it in your root build.gradle at the end of repositories:
 ```groovy
-allprojects {
+        allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
