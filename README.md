@@ -6,18 +6,18 @@ Letter, Number, Symbol.
 ### Gradle
 **Step 1.** Add it in your root build.gradle at the end of repositories:
 ```groovy
-        allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+allprojects {
+    repositories {
+	...
+	maven { url 'https://jitpack.io' }
+    }
+}
 ``` 
 **Step 2.** Add the dependency
 ```groovy
-	dependencies {
-	        implementation 'com.github.onlyloveyd:LazyKeyboard:v1.0'
-	}
+dependencies {
+    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.0'
+}
 ```
 
 ## Basic Usage
@@ -40,7 +40,7 @@ Letter, Number, Symbol.
 **Step 2.** init **SecurityKeyboard** with the layout contains **SecurityEditText**
 ```java
 
-SecurityKeyboard securityKeyboard = new SecurityKeyboard(binding.container);
+    SecurityKeyboard securityKeyboard = new SecurityKeyboard(binding.container);
 
 ```
 
