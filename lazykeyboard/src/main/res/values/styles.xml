@@ -1,0 +1,6 @@
+<resources>
+
+    <style name="PopupKeybroad" parent="android:Animation">
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+</resources>
