@@ -117,6 +117,10 @@ public class SecurityKeyboard extends PopupWindow {
         tvLetter = mMainView.findViewById(R.id.tv_letter);
         tvNumber = mMainView.findViewById(R.id.tv_number);
 
+        tvSymbol.setTextColor(Color.parseColor("#000000"));
+        tvLetter.setTextColor(Color.parseColor("#66aeff"));
+        tvNumber.setTextColor(Color.parseColor("#000000"));
+
         initNumbers();
         randomNumbers();
         keyboardView.setKeyboard(mKeyboardEnglish);
@@ -127,6 +131,9 @@ public class SecurityKeyboard extends PopupWindow {
 
             @Override
             public void onClick(View arg0) {
+                tvLetter.setTextColor(Color.parseColor("#000000"));
+                tvNumber.setTextColor(Color.parseColor("#66aeff"));
+                tvSymbol.setTextColor(Color.parseColor("#000000"));
                 randomNumbers();
                 keyboardView.setKeyboard(mKeyboardNumber);
             }
@@ -135,6 +142,9 @@ public class SecurityKeyboard extends PopupWindow {
 
             @Override
             public void onClick(View arg0) {
+                tvNumber.setTextColor(Color.parseColor("#000000"));
+                tvLetter.setTextColor(Color.parseColor("#66aeff"));
+                tvSymbol.setTextColor(Color.parseColor("#000000"));
                 keyboardView.setKeyboard(mKeyboardEnglish);
             }
         });
@@ -142,6 +152,9 @@ public class SecurityKeyboard extends PopupWindow {
 
             @Override
             public void onClick(View arg0) {
+                tvNumber.setTextColor(Color.parseColor("#000000"));
+                tvSymbol.setTextColor(Color.parseColor("#66aeff"));
+                tvLetter.setTextColor(Color.parseColor("#000000"));
                 keyboardView.setKeyboard(mKeyboardSymbol);
             }
         });
