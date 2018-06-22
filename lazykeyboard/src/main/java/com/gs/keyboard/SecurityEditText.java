@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 /**
  * SecurityEditText
  *
- * @author yidong (yidong@gz.csg.cn)
+ * @author yidong (onlyloveyd@gmaill.com)
  * @date 2018/6/15 08:29
  */
 public class SecurityEditText extends AppCompatEditText {

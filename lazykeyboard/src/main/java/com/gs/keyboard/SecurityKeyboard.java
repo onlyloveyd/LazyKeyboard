@@ -25,7 +25,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.gs.utils.DisplayUtils;
 
 import java.lang.reflect.Method;
@@ -34,11 +33,10 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * 1. 颜色提取出来，属性设置
- * 2. 按钮的背景和点击效果
- * 3. 字体颜色大小
+ * 安全键盘主类
  *
- * @author Mraz
+ * @author yidong (onlyloveyd@gmaol.com)
+ * @date 2018/6/22 07:45
  */
 public class SecurityKeyboard extends PopupWindow {
 
@@ -50,9 +48,9 @@ public class SecurityKeyboard extends PopupWindow {
     private Keyboard mKeyboardEnglish;
 
     /**
-     * 数字键盘和第二个菜单
+     * 符号键盘
      */
-    private Keyboard mKeyboardSymbol, mKeyboardSymbolShift;
+    private Keyboard mKeyboardNumber, mKeyboardSymbol;
 
     /**
      * 是否为数字键盘
@@ -71,10 +69,6 @@ public class SecurityKeyboard extends PopupWindow {
     private SecurityEditText curEditText;
 
     RelativeLayout keyboard_view_ly;
-    private int width;
-    private int height;
-    private int oldWidth;
-    private int oldHeight;
 
     private ViewGroup mParentLayout;
     private Context mContext;
@@ -86,20 +80,13 @@ public class SecurityKeyboard extends PopupWindow {
 
         mContext = parentLayout.getContext();
 
-        width = DisplayUtils.getScreenWidth(mContext);
-        height = DisplayUtils.getScreenHeight(mContext)
-                - DisplayUtils.dp2px(mContext, 248);
-
-        oldWidth = DisplayUtils.getScreenWidth(mContext);
-        oldHeight = DisplayUtils.getScreenHeight(mContext);
-
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMainView = inflater.inflate(R.layout.gs_keyboard, null);
         this.setContentView(mMainView);
         this.setWidth(DisplayUtils.getScreenWidth(mContext));
         this.setHeight(LayoutParams.WRAP_CONTENT);
-        ColorDrawable dw = new ColorDrawable(Color.parseColor("#00dbdde2"));
+        ColorDrawable dw = new ColorDrawable(Color.parseColor("#00000000"));
         // 设置SelectPicPopupWindow弹出窗体的背景
         this.setBackgroundDrawable(dw);
 
@@ -108,17 +95,17 @@ public class SecurityKeyboard extends PopupWindow {
         this.setPopupWindowTouchModal(this, false);
 
         this.setAnimationStyle(R.style.PopupKeybroad);
-        if (DisplayUtils.dp2px(mContext, 231) > (int) (DisplayUtils
+        if (DisplayUtils.dp2px(mContext, 236) > (int) (DisplayUtils
                 .getScreenHeight(mContext) * 3.0f / 5.0f)) {
             mKeyboardEnglish = new Keyboard(mContext,
                     R.xml.gs_keyboard_english_land);
-            mKeyboardSymbol = new Keyboard(mContext, R.xml.gs_keyboard_number_land);
-            mKeyboardSymbolShift = new Keyboard(mContext,
+            mKeyboardNumber = new Keyboard(mContext, R.xml.gs_keyboard_number_land);
+            mKeyboardSymbol = new Keyboard(mContext,
                     R.xml.gs_keyboard_symbols_shift_land);
         } else {
             mKeyboardEnglish = new Keyboard(mContext, R.xml.gs_keyboard_english);
-            mKeyboardSymbol = new Keyboard(mContext, R.xml.gs_keyboard_number);
-            mKeyboardSymbolShift = new Keyboard(mContext,
+            mKeyboardNumber = new Keyboard(mContext, R.xml.gs_keyboard_number);
+            mKeyboardSymbol = new Keyboard(mContext,
                     R.xml.gs_keyboard_symbols_shift);
         }
 
@@ -141,7 +128,7 @@ public class SecurityKeyboard extends PopupWindow {
             @Override
             public void onClick(View arg0) {
                 randomNumbers();
-                keyboardView.setKeyboard(mKeyboardSymbol);
+                keyboardView.setKeyboard(mKeyboardNumber);
             }
         });
         tvLetter.setOnClickListener(new OnClickListener() {
@@ -155,7 +142,7 @@ public class SecurityKeyboard extends PopupWindow {
 
             @Override
             public void onClick(View arg0) {
-                keyboardView.setKeyboard(mKeyboardSymbolShift);
+                keyboardView.setKeyboard(mKeyboardSymbol);
             }
         });
 
@@ -278,17 +265,15 @@ public class SecurityKeyboard extends PopupWindow {
                     keyboardView.setKeyboard(mKeyboardEnglish);
                 } else {
                     isNumber = true;
-                    keyboardView.setKeyboard(mKeyboardSymbol);
-                    if (primaryCode == -102) {
-                        keyboardView.setKeyboard(mKeyboardSymbolShift);
-                    }
-
+                    keyboardView.setKeyboard(mKeyboardNumber);
                 }
             } else if (primaryCode == 57419) {
+                //左移
                 if (start > 0) {
                     curEditText.setSelection(start - 1);
                 }
             } else if (primaryCode == 57421) {
+                //右移
                 if (start < curEditText.length()) {
                     curEditText.setSelection(start + 1);
                 }
@@ -334,7 +319,7 @@ public class SecurityKeyboard extends PopupWindow {
      * 键盘数字随机切换
      */
     private void randomNumbers() {
-        List<Key> keylist = mKeyboardSymbol.getKeys();
+        List<Key> keylist = mKeyboardNumber.getKeys();
         ArrayList<String> temNum = new ArrayList<>(nums_);
 
         for (Key key : keylist) {
@@ -363,8 +348,6 @@ public class SecurityKeyboard extends PopupWindow {
                 .getScreenHeight(mContext) * 3.0f / 5.0f)) {
             yOff = DisplayUtils.getScreenHeight(mContext)
                     - DisplayUtils.dp2px(mContext, 199);
-            height = DisplayUtils.getScreenHeight(mContext)
-                    - DisplayUtils.dp2px(mContext, 216);
         }
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.push_bottom_in);
         showAtLocation(view, Gravity.BOTTOM | Gravity.LEFT, 0, yOff);
