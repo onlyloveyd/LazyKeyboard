@@ -159,7 +159,7 @@ public class SecurityKeyboard extends PopupWindow {
 
             @Override
             public void onClick(View arg0) {
-                switchKeyboardType(KeyboardType.LETTER,
+                switchKeyboardType(KeyboardType.NUMBER,
                         configuration.getSelectedColor(),
                         configuration.getUnselectedColor());
                 randomNumbers();
@@ -170,7 +170,7 @@ public class SecurityKeyboard extends PopupWindow {
 
             @Override
             public void onClick(View arg0) {
-                switchKeyboardType(KeyboardType.NUMBER,
+                switchKeyboardType(KeyboardType.LETTER,
                         configuration.getSelectedColor(),
                         configuration.getUnselectedColor());
                 keyboardView.setKeyboard(mKeyboardLetter);

@@ -19,8 +19,7 @@ public class LazyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityLazyBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_lazy);
         SecurityConfigure configure = new SecurityConfigure()
-                .setDefaultKeyboardType(KeyboardType.NUMBER)
-                .setLetterEnabled(false);
+                .setDefaultKeyboardType(KeyboardType.NUMBER);
         securityKeyboard = new SecurityKeyboard(binding.loginLayout, configure);
     }
 }

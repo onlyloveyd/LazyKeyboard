@@ -16,7 +16,7 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.1'
+    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.2'
 }
 ```
 
