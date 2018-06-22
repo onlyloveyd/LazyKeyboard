@@ -45,7 +45,7 @@ public class SecurityKeyboard extends PopupWindow {
     /**
      * 字母键盘
      */
-    private Keyboard mKeyboardEnglish;
+    private Keyboard mKeyboardLetter;
 
     /**
      * 符号键盘
@@ -68,18 +68,23 @@ public class SecurityKeyboard extends PopupWindow {
 
     private SecurityEditText curEditText;
 
-    RelativeLayout keyboard_view_ly;
+    private RelativeLayout keyboardViewLy;
+    private SecurityConfigure configuration;
 
     private ViewGroup mParentLayout;
     private Context mContext;
 
     @SuppressLint("ClickableViewAccessibility")
-    public SecurityKeyboard(final ViewGroup parentLayout) {
+    public SecurityKeyboard(final ViewGroup parentLayout, SecurityConfigure securityConfigure) {
         super(parentLayout.getContext());
+        if (securityConfigure == null) {
+            configuration = new SecurityConfigure();
+        } else {
+            configuration = securityConfigure;
+        }
+
         mParentLayout = parentLayout;
-
         mContext = parentLayout.getContext();
-
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMainView = inflater.inflate(R.layout.gs_keyboard, null);
@@ -97,13 +102,13 @@ public class SecurityKeyboard extends PopupWindow {
         this.setAnimationStyle(R.style.PopupKeybroad);
         if (DisplayUtils.dp2px(mContext, 236) > (int) (DisplayUtils
                 .getScreenHeight(mContext) * 3.0f / 5.0f)) {
-            mKeyboardEnglish = new Keyboard(mContext,
+            mKeyboardLetter = new Keyboard(mContext,
                     R.xml.gs_keyboard_english_land);
             mKeyboardNumber = new Keyboard(mContext, R.xml.gs_keyboard_number_land);
             mKeyboardSymbol = new Keyboard(mContext,
                     R.xml.gs_keyboard_symbols_shift_land);
         } else {
-            mKeyboardEnglish = new Keyboard(mContext, R.xml.gs_keyboard_english);
+            mKeyboardLetter = new Keyboard(mContext, R.xml.gs_keyboard_english);
             mKeyboardNumber = new Keyboard(mContext, R.xml.gs_keyboard_number);
             mKeyboardSymbol = new Keyboard(mContext,
                     R.xml.gs_keyboard_symbols_shift);
@@ -111,19 +116,42 @@ public class SecurityKeyboard extends PopupWindow {
 
         keyboardView = mMainView
                 .findViewById(R.id.keyboard_view);
-        keyboard_view_ly = mMainView.findViewById(R.id.keyboard_view_ly);
+        keyboardViewLy = mMainView.findViewById(R.id.keyboard_view_ly);
+
 
         tvSymbol = mMainView.findViewById(R.id.tv_symbol);
         tvLetter = mMainView.findViewById(R.id.tv_letter);
         tvNumber = mMainView.findViewById(R.id.tv_number);
 
-        tvSymbol.setTextColor(Color.parseColor("#000000"));
-        tvLetter.setTextColor(Color.parseColor("#66aeff"));
-        tvNumber.setTextColor(Color.parseColor("#000000"));
+        if (!configuration.isLetterEnabled()) {
+            tvLetter.setVisibility(View.GONE);
+        }
+        if (!configuration.isNumberEnabled()) {
+            tvNumber.setVisibility(View.GONE);
+        }
+        if (!configuration.isSymbolEnabled()) {
+            tvSymbol.setVisibility(View.GONE);
+        }
+
+        switchKeyboardType(configuration.getDefaultKeyboardType(),
+                configuration.getSelectedColor(), configuration.getUnselectedColor());
 
         initNumbers();
         randomNumbers();
-        keyboardView.setKeyboard(mKeyboardEnglish);
+        switch (configuration.getDefaultKeyboardType().getCode()) {
+            case 0:
+                keyboardView.setKeyboard(mKeyboardLetter);
+                break;
+            case 1:
+                keyboardView.setKeyboard(mKeyboardNumber);
+                break;
+            case 2:
+                keyboardView.setKeyboard(mKeyboardSymbol);
+                break;
+            default:
+                keyboardView.setKeyboard(mKeyboardLetter);
+                break;
+        }
         keyboardView.setEnabled(true);
         keyboardView.setPreviewEnabled(false);
         keyboardView.setOnKeyboardActionListener(listener);
@@ -131,9 +159,9 @@ public class SecurityKeyboard extends PopupWindow {
 
             @Override
             public void onClick(View arg0) {
-                tvLetter.setTextColor(Color.parseColor("#000000"));
-                tvNumber.setTextColor(Color.parseColor("#66aeff"));
-                tvSymbol.setTextColor(Color.parseColor("#000000"));
+                switchKeyboardType(KeyboardType.LETTER,
+                        configuration.getSelectedColor(),
+                        configuration.getUnselectedColor());
                 randomNumbers();
                 keyboardView.setKeyboard(mKeyboardNumber);
             }
@@ -142,19 +170,19 @@ public class SecurityKeyboard extends PopupWindow {
 
             @Override
             public void onClick(View arg0) {
-                tvNumber.setTextColor(Color.parseColor("#000000"));
-                tvLetter.setTextColor(Color.parseColor("#66aeff"));
-                tvSymbol.setTextColor(Color.parseColor("#000000"));
-                keyboardView.setKeyboard(mKeyboardEnglish);
+                switchKeyboardType(KeyboardType.NUMBER,
+                        configuration.getSelectedColor(),
+                        configuration.getUnselectedColor());
+                keyboardView.setKeyboard(mKeyboardLetter);
             }
         });
         tvSymbol.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                tvNumber.setTextColor(Color.parseColor("#000000"));
-                tvSymbol.setTextColor(Color.parseColor("#66aeff"));
-                tvLetter.setTextColor(Color.parseColor("#000000"));
+                switchKeyboardType(KeyboardType.SYMBOL,
+                        configuration.getSelectedColor(),
+                        configuration.getUnselectedColor());
                 keyboardView.setKeyboard(mKeyboardSymbol);
             }
         });
@@ -269,13 +297,13 @@ public class SecurityKeyboard extends PopupWindow {
             } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {
                 // 大小写切换
                 changeKey();
-                keyboardView.setKeyboard(mKeyboardEnglish);
+                keyboardView.setKeyboard(mKeyboardLetter);
 
             } else if (primaryCode == Keyboard.KEYCODE_MODE_CHANGE) {
                 // 数字键盘切换,默认是英文键盘
                 if (isNumber) {
                     isNumber = false;
-                    keyboardView.setKeyboard(mKeyboardEnglish);
+                    keyboardView.setKeyboard(mKeyboardLetter);
                 } else {
                     isNumber = true;
                     keyboardView.setKeyboard(mKeyboardNumber);
@@ -300,7 +328,7 @@ public class SecurityKeyboard extends PopupWindow {
      * 键盘大小写切换
      */
     private void changeKey() {
-        List<Key> keylist = mKeyboardEnglish.getKeys();
+        List<Key> keylist = mKeyboardLetter.getKeys();
         if (isUpper) {
             isUpper = false;
             for (Key key : keylist) {
@@ -387,5 +415,34 @@ public class SecurityKeyboard extends PopupWindow {
     @Override
     public void dismiss() {
         super.dismiss();
+    }
+
+    /**
+     * 键盘类型切换后文本颜色变化
+     *
+     * @param keyboardType
+     * @param selectedColor
+     * @param unSelectedColor
+     */
+    private void switchKeyboardType(KeyboardType keyboardType, int selectedColor, int unSelectedColor) {
+        switch (keyboardType.getCode()) {
+            case 0:
+                tvLetter.setTextColor(selectedColor);
+                tvSymbol.setTextColor(unSelectedColor);
+                tvNumber.setTextColor(unSelectedColor);
+                break;
+            case 1:
+                tvNumber.setTextColor(selectedColor);
+                tvSymbol.setTextColor(unSelectedColor);
+                tvLetter.setTextColor(unSelectedColor);
+                break;
+            case 2:
+                tvSymbol.setTextColor(selectedColor);
+                tvLetter.setTextColor(unSelectedColor);
+                tvNumber.setTextColor(unSelectedColor);
+                break;
+            default:
+                throw new IllegalArgumentException("不支持的键盘类型");
+        }
     }
 }
