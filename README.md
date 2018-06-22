@@ -16,7 +16,7 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.0'
+    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.1'
 }
 ```
 
@@ -39,9 +39,10 @@ dependencies {
 ```
 **Step 2.** init **SecurityKeyboard** with the layout contains **SecurityEditText**
 ```java
-
-    SecurityKeyboard securityKeyboard = new SecurityKeyboard(binding.container);
-
+   SecurityConfigure configure = new SecurityConfigure()
+           .setDefaultKeyboardType(KeyboardType.NUMBER)
+           .setLetterEnabled(false);
+   securityKeyboard = new SecurityKeyboard(binding.loginLayout, configure);
 ```
 
 ## Basic Result
