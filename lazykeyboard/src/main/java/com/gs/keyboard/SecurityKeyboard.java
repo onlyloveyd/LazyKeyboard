@@ -9,7 +9,6 @@ import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.Selection;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -187,8 +186,10 @@ public class SecurityKeyboard extends PopupWindow {
             }
         });
 
-        for (int i = 0; i < parentLayout.getChildCount(); i++) {
-            View view = parentLayout.getChildAt(i);
+
+        List<View> children = getAllChildren(parentLayout);
+        for (int i = 0; i < children.size(); i++) {
+            View view = children.get(i);
             if (view instanceof SecurityEditText) {
                 SecurityEditText securityEditText = (SecurityEditText) view;
                 securityEditText.setOnTouchListener(new View.OnTouchListener() {
@@ -197,7 +198,7 @@ public class SecurityKeyboard extends PopupWindow {
                         if (event.getAction() == MotionEvent.ACTION_UP) {
                             curEditText = (SecurityEditText) v;
                             curEditText.requestFocus();
-                            curEditText.setInputType(InputType.TYPE_NULL);
+                            //curEditText.setInputType(InputType.TYPE_NULL);
                             //将光标移到文本最后
                             Editable editable = curEditText.getText();
                             Selection.setSelection(editable, editable.length());
@@ -444,5 +445,25 @@ public class SecurityKeyboard extends PopupWindow {
             default:
                 throw new IllegalArgumentException("不支持的键盘类型");
         }
+    }
+
+    /**
+     * 获取所有子元素
+     *
+     * @param parent
+     * @return
+     */
+    private List<View> getAllChildren(View parent) {
+        List<View> allChildren = new ArrayList<>();
+        if (parent instanceof ViewGroup) {
+            ViewGroup vp = (ViewGroup) parent;
+            for (int i = 0; i < vp.getChildCount(); i++) {
+                View child = vp.getChildAt(i);
+                allChildren.add(child);
+                //再次 调用本身（递归）
+                allChildren.addAll(getAllChildren(child));
+            }
+        }
+        return allChildren;
     }
 }
