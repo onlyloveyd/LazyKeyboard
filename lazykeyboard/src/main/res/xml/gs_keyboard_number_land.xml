@@ -35,6 +35,7 @@
             android:keyLabel="8" />
         <Key
             android:codes="-5"
+            android:isRepeatable="true"
             android:keyIcon="@drawable/keyboard_delete" />
     </Row>
     <Row>
