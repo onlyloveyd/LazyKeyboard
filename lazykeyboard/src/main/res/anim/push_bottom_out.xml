@@ -8,4 +8,4 @@
         android:duration="200"
         android:fromAlpha="1.0"
         android:toAlpha="0.0" />
-</set><!-- From: file:/F:/huzhaocode/android/res/anim/exmobi_push_bottom_out.xml -->
+</set>
