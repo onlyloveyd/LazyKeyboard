@@ -1,7 +1,10 @@
 package com.gs.keyboard;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -21,19 +24,25 @@ import java.lang.reflect.Method;
  */
 public class SecurityEditText extends AppCompatEditText {
     private KeyboardDialog dialog;
+    private KeyboardAttribute keyboardAttribute;
 
     public SecurityEditText(Context context) {
-        super(context);
-        initialize();
+        this(context, null);
     }
 
     public SecurityEditText(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initialize();
+        this(context, attrs, R.attr.editTextStyle);
     }
 
     public SecurityEditText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SecurityEditText);
+        ColorStateList chooserSelectedColor = a.getColorStateList(R.styleable.SecurityEditText_chooserSelectedColor);
+        ColorStateList chooserUnselectedColor = a.getColorStateList(R.styleable.SecurityEditText_chooserUnselectedColor);
+        Drawable chooserBackground = a.getDrawable(R.styleable.SecurityEditText_chooserBackground);
+        Drawable keyboardBackground = a.getDrawable(R.styleable.SecurityEditText_keyboardBackground);
+        a.recycle();
+        keyboardAttribute = new KeyboardAttribute(chooserSelectedColor, chooserUnselectedColor, chooserBackground, keyboardBackground);
         initialize();
     }
 
@@ -133,5 +142,10 @@ public class SecurityEditText extends AppCompatEditText {
             return true;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+
+    public KeyboardAttribute getKeyboardAttribute() {
+        return keyboardAttribute;
     }
 }

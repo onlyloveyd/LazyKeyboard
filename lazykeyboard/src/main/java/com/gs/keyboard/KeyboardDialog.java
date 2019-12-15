@@ -2,6 +2,7 @@ package com.gs.keyboard;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.inputmethodservice.Keyboard;
@@ -13,7 +14,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 
 import com.gs.keyboard.databinding.DialogKeyboardBinding;
 
@@ -35,14 +35,16 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
     private SparseArray<Keyboard> mOrderToKeyboard;
     private ArrayList<String> mNumberPool;
 
-    private int mSelectedTextColor = Color.BLUE;
-    private int mUnSelectedTextColor = Color.BLACK;
+    private ColorStateList mSelectedTextColor = ColorStateList.valueOf(Color.BLUE);
+    private ColorStateList mUnSelectedTextColor = ColorStateList.valueOf(Color.BLACK);
+
     private boolean isNumberRandom = true;
     private boolean isUpper = false;
 
-    private WeakReference<EditText> mTargetEditText;
+    private WeakReference<SecurityEditText> mTargetEditText;
+    private KeyboardAttribute attribute;
 
-    public KeyboardDialog(Context context, EditText editText) {
+    public KeyboardDialog(Context context, SecurityEditText editText) {
         super(context, R.style.NoFrameDialog);
         mOrderToKeyboard = new SparseArray<>();
         mNumberPool = new ArrayList<>();
@@ -59,7 +61,7 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
         mTargetEditText = new WeakReference<>(editText);
     }
 
-    public static KeyboardDialog show(Context context, EditText editText) {
+    public static KeyboardDialog show(Context context, SecurityEditText editText) {
         KeyboardDialog dialog = new KeyboardDialog(context, editText);
         dialog.show();
         return dialog;
@@ -70,6 +72,7 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
         super.onCreate(savedInstanceState);
         mBinding = DialogKeyboardBinding.inflate(LayoutInflater.from(getContext()));
         setContentView(mBinding.getRoot());
+        initAttribute();
         initKeyboards();
         initKeyboardChooser();
     }
@@ -89,7 +92,15 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
         }
     }
 
+    private void initAttribute() {
+        attribute = mTargetEditText.get().getKeyboardAttribute();
+    }
+
     private void initKeyboards() {
+        mBinding.keyboardView.setBackground(attribute.keyboardBackground);
+        mBinding.keyboardChooser.setBackground(attribute.chooserBackground);
+        mSelectedTextColor = attribute.chooserSelectedColor;
+        mUnSelectedTextColor = attribute.chooserUnselectedColor;
         mBinding.keyboardView.setPreviewEnabled(true);
         mBinding.keyboardView.setOnKeyboardActionListener(this);
         if (isPortrait()) {

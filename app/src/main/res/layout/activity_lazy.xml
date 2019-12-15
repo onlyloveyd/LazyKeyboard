@@ -42,8 +42,8 @@
                     android:id="@+id/login_input_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:hint="用户名"
                     android:inputType="textEmailAddress" />
 
@@ -52,17 +52,21 @@
                     android:id="@+id/login_input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:hint="密码"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    app:chooserBackground="@android:color/holo_red_dark"
+                    app:chooserSelectedColor="@android:color/white"
+                    app:chooserUnselectedColor="@color/colorPrimary"
+                    app:keyboardBackground="@drawable/abc_vector_test" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_login"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
                     android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
                     android:padding="12dp"
                     android:text="登录" />
 
