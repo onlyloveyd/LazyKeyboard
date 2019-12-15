@@ -97,11 +97,23 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
     }
 
     private void initKeyboards() {
-        mBinding.keyboardView.setBackground(attribute.keyboardBackground);
-        mBinding.keyboardChooser.setBackground(attribute.chooserBackground);
-        mSelectedTextColor = attribute.chooserSelectedColor;
-        mUnSelectedTextColor = attribute.chooserUnselectedColor;
-        mBinding.keyboardView.setPreviewEnabled(true);
+        if (attribute.keyboardBackground != null) {
+            mBinding.keyboardView.setBackground(attribute.keyboardBackground);
+        }
+        if (attribute.chooserBackground != null) {
+            mBinding.keyboardChooser.setBackground(attribute.chooserBackground);
+        }
+        if (attribute.chooserSelectedColor != null) {
+            mSelectedTextColor = attribute.chooserSelectedColor;
+        }
+        if (attribute.chooserUnselectedColor != null) {
+            mUnSelectedTextColor = attribute.chooserUnselectedColor;
+        }
+        if (attribute.isKeyPreview) {
+            mBinding.keyboardView.setPreviewEnabled(true);
+        } else {
+            mBinding.keyboardView.setPreviewEnabled(false);
+        }
         mBinding.keyboardView.setOnKeyboardActionListener(this);
         if (isPortrait()) {
             mLetterKeyboard = new Keyboard(getContext(), R.xml.gs_keyboard_english);

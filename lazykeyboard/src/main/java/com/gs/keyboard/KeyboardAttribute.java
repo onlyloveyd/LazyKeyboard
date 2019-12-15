@@ -8,11 +8,13 @@ class KeyboardAttribute {
     public ColorStateList chooserUnselectedColor;
     public Drawable chooserBackground;
     public Drawable keyboardBackground;
+    public boolean isKeyPreview;
 
-    public KeyboardAttribute(ColorStateList chooserSelectedColor, ColorStateList chooserUnselectedColor, Drawable chooserBackground, Drawable keyboardBackground) {
+    public KeyboardAttribute(ColorStateList chooserSelectedColor, ColorStateList chooserUnselectedColor, Drawable chooserBackground, Drawable keyboardBackground, boolean isKeyPreview) {
         this.chooserSelectedColor = chooserSelectedColor;
         this.chooserUnselectedColor = chooserUnselectedColor;
         this.chooserBackground = chooserBackground;
         this.keyboardBackground = keyboardBackground;
+        this.isKeyPreview = isKeyPreview;
     }
 }

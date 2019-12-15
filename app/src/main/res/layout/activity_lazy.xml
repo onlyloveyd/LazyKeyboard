@@ -56,10 +56,11 @@
                     android:layout_marginBottom="8dp"
                     android:hint="密码"
                     android:inputType="textPassword"
-                    app:chooserBackground="@android:color/holo_red_dark"
-                    app:chooserSelectedColor="@android:color/white"
-                    app:chooserUnselectedColor="@color/colorPrimary"
-                    app:keyboardBackground="@drawable/abc_vector_test" />
+                    app:chooserBackground="@color/iron"
+                    app:chooserSelectedColor="#000000"
+                    app:chooserUnselectedColor="#999999"
+                    app:keyPreview="true"
+                    app:keyboardBackground="@drawable/keyboard_bg" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_login"

@@ -41,8 +41,9 @@ public class SecurityEditText extends AppCompatEditText {
         ColorStateList chooserUnselectedColor = a.getColorStateList(R.styleable.SecurityEditText_chooserUnselectedColor);
         Drawable chooserBackground = a.getDrawable(R.styleable.SecurityEditText_chooserBackground);
         Drawable keyboardBackground = a.getDrawable(R.styleable.SecurityEditText_keyboardBackground);
+        boolean isKeyPreview = a.getBoolean(R.styleable.SecurityEditText_keyPreview, true);
         a.recycle();
-        keyboardAttribute = new KeyboardAttribute(chooserSelectedColor, chooserUnselectedColor, chooserBackground, keyboardBackground);
+        keyboardAttribute = new KeyboardAttribute(chooserSelectedColor, chooserUnselectedColor, chooserBackground, keyboardBackground, isKeyPreview);
         initialize();
     }
 
