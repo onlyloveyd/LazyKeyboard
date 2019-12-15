@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="chooserSelectedColor" format="color" />
+    <attr name="chooserUnselectedColor" format="color" />
+    <attr name="chooserBackground" format="color" />
+    <attr name="keyboardBackground" format="color" />
+    <attr name="inputType" format="enum">
+        <enum name="number" value="0x01" />
+        <enum name="symbol" value="0x02" />
+        <enum name="letter" value="0x03" />
+    </attr>
+    <declare-styleable name="SecurityEditText">
+        <attr name="chooserSelectedColor" />
+        <attr name="chooserUnselectedColor" />
+        <attr name="chooserBackground" />
+        <attr name="keyboardBackground" />
+        <attr name="inputType" />
+    </declare-styleable>
+</resources>

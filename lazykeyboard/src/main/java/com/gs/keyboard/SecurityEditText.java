@@ -1,9 +1,17 @@
 package com.gs.keyboard;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatEditText;
+import android.graphics.Rect;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+
+import java.lang.reflect.Method;
 
 /**
  * SecurityEditText
@@ -12,15 +20,118 @@ import android.util.AttributeSet;
  * @date 2018/6/15 08:29
  */
 public class SecurityEditText extends AppCompatEditText {
+    private KeyboardDialog dialog;
+
     public SecurityEditText(Context context) {
         super(context);
+        initialize();
     }
 
     public SecurityEditText(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initialize();
     }
 
     public SecurityEditText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initialize();
+    }
+
+    private void initialize() {
+        setClickable(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setShowSoftInputOnFocus(false);
+        } else {
+            try {
+                Class<EditText> cls = EditText.class;
+                Method setShowSoftInputOnFocus;
+                setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
+                setShowSoftInputOnFocus.setAccessible(true);
+                setShowSoftInputOnFocus.invoke(this, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        if (focused) {
+            hideSystemKeyboard();
+            showSoftInput();
+        } else {
+            hideSoftKeyboard();
+        }
+    }
+
+    @Override
+    public boolean performClick() {
+        if (this.isFocused()) {
+            hideSystemKeyboard();
+            showSoftInput();
+        }
+        return false;
+    }
+
+    private void hideSystemKeyboard() {
+        InputMethodManager manager = (InputMethodManager) this.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (manager != null) {
+            manager.hideSoftInputFromWindow(this.getWindowToken(), 0);
+        }
+    }
+
+    private void showSoftInput() {
+        if (dialog == null) {
+            dialog = KeyboardDialog.show(getContext(), this);
+        } else {
+            dialog.show();
+        }
+    }
+
+    private void hideSoftKeyboard() {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (this.isFocused()) {
+            hideSystemKeyboard();
+            showSoftInput();
+        }
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (this.isFocused()) {
+            hideSoftKeyboard();
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        if (hasWindowFocus && hasFocus()) {
+            this.post(() -> {
+                hideSystemKeyboard();
+                showSoftInput();
+            });
+        }
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }
