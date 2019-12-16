@@ -2,11 +2,9 @@
 A SecurityKeyBoard for Android. Supporting three kinds of keyboard:
 Letter, Number, Symbol.
 
-[中文版](http://www.onlyloveyd.cn/article/32)
-
 ## Installation
 ### Gradle
-**Step 1.** Add it in your root build.gradle at the end of repositories:
+**Step 1.** Add following code to your root build.gradle at the end of repositories
 ```groovy
 allprojects {
     repositories {
@@ -18,12 +16,12 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.3'
+    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.5'
 }
 ```
 
 ## Basic Usage
-**Step 1.** Add **SecurityEditText** into your layout
+**Only Step.** Add **SecurityEditText** into your layout
 ```xml
    <LinearLayout
         android:id="@+id/container"
@@ -39,15 +37,18 @@ dependencies {
             ... />
     </LinearLayout>
 ```
-**Step 2.** init **SecurityKeyboard** with the layout contains **SecurityEditText**
-```java
-   SecurityConfigure configure = new SecurityConfigure()
-           .setDefaultKeyboardType(KeyboardType.NUMBER)
-           .setLetterEnabled(false);
-   securityKeyboard = new SecurityKeyboard(binding.loginLayout, configure);
-```
+
+## Attributes
+|Attribute|Usage|
+|--|--|
+|chooserSelectedColor|the selected keyboard type text color|
+|chooserUnselectedColor|the unselected keyboard type text color|
+|chooserBackground|the background of keyboard type area|
+|keyboardBackground|the background of keyboard |
+|isKeyPreview| whether show preview layout when tap on key|
 
 ## Basic Result
+![all](screenshot/new_keyboard.png)
 ![letter](screenshot/letter.png)
 ![symbol](screenshot/symbol.png)
 ![number](screenshot/number.png)
