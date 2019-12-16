@@ -49,5 +49,11 @@ dependencies {
 |keyboardBackground|the background of keyboard |
 |isKeyPreview| whether show preview layout when tap on key|
 
-## Basic Result
+## Custom Keyboard
 ![all](screenshot/new_keyboard.png)
+
+## Default Keyboard
+![letter](screenshot/letter.png)
+![symbol](screenshot/symbol.png)
+![number](screenshot/number.png)
+
