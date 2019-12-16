@@ -139,8 +139,10 @@ public class SecurityEditText extends AppCompatEditText {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
+                return true;
+            } else {
+                return false;
             }
-            return true;
         }
         return super.onKeyUp(keyCode, event);
     }
