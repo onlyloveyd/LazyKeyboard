@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">SecurityKeyboard</string>
     <string name="aToz">abcdefghijklmnopqrstuvwxyz</string>
-    <string name="zeroTonine">1234567890</string>
+    <string name="zeroToNine">1234567890</string>
+    <string name="title_letter">字母</string>
+    <string name="title_symbol">符号</string>
+    <string name="title_number">数字</string>
+    <string name="exception_invalid_keyboard">无效的键盘类型</string>
 </resources>

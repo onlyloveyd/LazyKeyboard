@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="chooserSelectedColor" format="reference|color" />
+    <attr name="chooserUnselectedColor" format="reference|color" />
+    <attr name="chooserBackground" format="reference|color" />
+    <attr name="keyboardBackground" format="reference|color" />
+    <attr name="keyPreview" format="boolean" />
+    <declare-styleable name="SecurityEditText">
+        <attr name="chooserSelectedColor" />
+        <attr name="chooserUnselectedColor" />
+        <attr name="chooserBackground" />
+        <attr name="keyboardBackground" />
+        <attr name="keyPreview" />
+    </declare-styleable>
+</resources>

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,8 +42,8 @@
                     android:id="@+id/login_input_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:hint="用户名"
                     android:inputType="textEmailAddress" />
 
@@ -52,17 +52,22 @@
                     android:id="@+id/login_input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:hint="密码"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    app:chooserBackground="@color/iron"
+                    app:chooserSelectedColor="#000000"
+                    app:chooserUnselectedColor="#999999"
+                    app:keyPreview="true"
+                    app:keyboardBackground="@drawable/keyboard_bg" />
 
-                <android.support.v7.widget.AppCompatButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_login"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
                     android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
                     android:padding="12dp"
                     android:text="登录" />
 
