@@ -1,5 +1,6 @@
 package com.gs.keyboard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -12,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
 
 import java.lang.reflect.Method;
 
@@ -22,7 +22,8 @@ import java.lang.reflect.Method;
  * @author yidong (onlyloveyd@gmaill.com)
  * @date 2018/6/15 08:29
  */
-public class SecurityEditText extends AppCompatEditText {
+@SuppressLint("AppCompatCustomView")
+public class SecurityEditText extends EditText {
     private KeyboardDialog dialog;
     private KeyboardAttribute keyboardAttribute;
 
