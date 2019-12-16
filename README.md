@@ -51,6 +51,3 @@ dependencies {
 
 ## Basic Result
 ![all](screenshot/new_keyboard.png)
-![letter](screenshot/letter.png)
-![symbol](screenshot/symbol.png)
-![number](screenshot/number.png)
