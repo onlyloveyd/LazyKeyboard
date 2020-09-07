@@ -57,3 +57,5 @@ dependencies {
 ![symbol](screenshot/symbol.png)
 ![number](screenshot/number.png)
 
+## Follow
+![Scan to Follow](http://qiniu.fultter.club/Fo06zkVloEtnbc5F6z7c6NCa8dqP)
