@@ -1,3 +1,5 @@
+# New Version V1.4     
+
 # LazyKeyboard
 A SecurityKeyBoard for Android. Supporting three kinds of keyboard:
 Letter, Number, Symbol.
@@ -16,7 +18,7 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.5'
+    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.4'
 }
 ```
 
@@ -47,8 +49,13 @@ dependencies {
 |keyboardBackground|the background of keyboard |
 |isKeyPreview| whether show preview layout when tap on key|
 
-## Basic Result
+## Custom Keyboard
 ![all](screenshot/new_keyboard.png)
+
+## Default Keyboard
 ![letter](screenshot/letter.png)
 ![symbol](screenshot/symbol.png)
 ![number](screenshot/number.png)
+
+## Follow
+![Scan to Follow](http://qiniu.fultter.club/Fo06zkVloEtnbc5F6z7c6NCa8dqP)
