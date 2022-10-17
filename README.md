@@ -1,4 +1,4 @@
-# New Version V1.5
+# New Version v1.5
 
 # LazyKeyboard
 A SecurityKeyBoard for Android. Supporting three kinds of keyboard:
@@ -18,7 +18,7 @@ allprojects {
 **Step 2.** Add the dependency
 ```groovy
 dependencies {
-    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.4'
+    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.5'
 }
 ```
 
