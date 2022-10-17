@@ -1,17 +1,12 @@
 apply plugin: 'com.android.library'
-
-apply plugin: 'com.github.dcendents.android-maven'
-
-group='com.github.onlyloveyd'
+apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 32
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 32
     }
 
     buildTypes {
@@ -30,8 +25,29 @@ android {
     }
 }
 
+publishing {
+    // 配置maven 仓库
+    repositories { RepositoryHandler handler ->
+        handler.mavenLocal()  // 发布到默认的 本地maven 仓库 ，路径： USER_HOME/.m2/repository/
+    }
+    // 配置发布产物
+    publications { PublicationContainer publication ->
+        // 名称可以随便定义，这里定义成 maven，是因为我的 aar 包是发布到 maven 仓库的，所以这里为了见名知义，定义成了 maven
+        // 任务名称：maven
+        maven(MavenPublication) {// 容器可配置的信息 MavenPublication
+            // 依赖 bundleReleaseAar 任务，并上传其产出的aar
+            afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) } // 方式一：生成aar包
+            // artifact "$buildDir/outputs/aar/${project.name}-release.aar" // 方式二：指定生成的aar路径
+            groupId = "com.github.onlyloveyd"
+            artifactId = "LazyKeyboard"
+            version = "1.4"
+        }
+    }
+}
+
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 }

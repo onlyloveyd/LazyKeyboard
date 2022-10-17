@@ -1,4 +1,4 @@
-# New Version V1.4     
+# New Version V1.5
 
 # LazyKeyboard
 A SecurityKeyBoard for Android. Supporting three kinds of keyboard:
@@ -24,6 +24,7 @@ dependencies {
 
 ## Basic Usage
 **Only Step.** Add **SecurityEditText** into your layout
+
 ```xml
    <LinearLayout
         android:id="@+id/container"
@@ -32,11 +33,13 @@ dependencies {
         <com.gs.keyboard.SecurityEditText
             android:id="@+id/et_security_keyboard"
             android:layout_width="match_parent"
-            ... />
+            ... 
+        />
 
         <EditText
             android:id="@+id/et_security_keyboard_two"
-            ... />
+            ... 
+        />
     </LinearLayout>
 ```
 
