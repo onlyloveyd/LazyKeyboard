@@ -31,7 +31,7 @@ publishing {
             afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
             groupId = "com.github.onlyloveyd"
             artifactId = "LazyKeyboard"
-            version = "V1.5"
+            version = "v1.5"
         }
     }
 }
