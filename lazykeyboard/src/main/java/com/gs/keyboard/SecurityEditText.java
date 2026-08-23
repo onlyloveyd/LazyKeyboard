@@ -5,16 +5,12 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
-
-import java.lang.reflect.Method;
 
 /**
  * SecurityEditText
@@ -31,7 +27,7 @@ public class SecurityEditText extends AppCompatEditText {
     }
 
     public SecurityEditText(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, R.attr.editTextStyle);
+        this(context, attrs, android.R.attr.editTextStyle);
     }
 
     public SecurityEditText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -49,19 +45,7 @@ public class SecurityEditText extends AppCompatEditText {
 
     private void initialize() {
         setClickable(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setShowSoftInputOnFocus(false);
-        } else {
-            try {
-                Class<EditText> cls = EditText.class;
-                Method setShowSoftInputOnFocus;
-                setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
-                setShowSoftInputOnFocus.setAccessible(true);
-                setShowSoftInputOnFocus.invoke(this, false);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        setShowSoftInputOnFocus(false);
     }
 
 

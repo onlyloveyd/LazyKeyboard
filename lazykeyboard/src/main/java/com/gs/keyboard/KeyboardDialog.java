@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.core.content.ContextCompat;
+
 import com.gs.keyboard.databinding.DialogKeyboardBinding;
 
 import java.lang.ref.WeakReference;
@@ -38,6 +40,7 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
     private ColorStateList mSelectedTextColor = ColorStateList.valueOf(Color.BLUE);
     private ColorStateList mUnSelectedTextColor = ColorStateList.valueOf(Color.BLACK);
 
+    private final Random mRandom = new Random();
     private boolean isNumberRandom = true;
     private boolean isUpper = false;
 
@@ -189,10 +192,10 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
             List<Keyboard.Key> keys = mNumberKeyboard.getKeys();
             for (Keyboard.Key key : keys) {
                 if (key.label != null && isNumber(key.label.toString())) {
-                    int number = new Random().nextInt(source.size());
+                    int number = mRandom.nextInt(source.size());
                     String[] text = source.get(number).split("#");
                     key.label = text[1];
-                    key.codes[0] = Integer.valueOf(text[0], 10);
+                    key.codes[0] = Integer.parseInt(text[0]);
                     source.remove(number);
                 }
             }
@@ -218,8 +221,7 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
                         key.codes[0] = key.codes[0] + 32;
                     }
                     if (key.codes[0] == -1) {
-                        key.icon = getContext().getResources().getDrawable(
-                                R.drawable.keyboard_shift);
+                        key.icon = ContextCompat.getDrawable(getContext(), R.drawable.keyboard_shift);
                     }
                 }
             } else {// 小写切换大写
@@ -230,8 +232,7 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
                         key.codes[0] = key.codes[0] - 32;
                     }
                     if (key.codes[0] == -1) {
-                        key.icon = getContext().getResources().getDrawable(
-                                R.drawable.keyboard_shift_c);
+                        key.icon = ContextCompat.getDrawable(getContext(), R.drawable.keyboard_shift_c);
                     }
                 }
             }

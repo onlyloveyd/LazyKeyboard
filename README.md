@@ -1,24 +1,35 @@
-# New Version v1.5
-
 # LazyKeyboard
+
+[![Android CI](https://github.com/onlyloveyd/LazyKeyboard/actions/workflows/android.yml/badge.svg)](https://github.com/onlyloveyd/LazyKeyboard/actions/workflows/android.yml)
+[![JitPack](https://jitpack.io/v/onlyloveyd/LazyKeyboard.svg)](https://jitpack.io/#onlyloveyd/LazyKeyboard)
+
 A SecurityKeyBoard for Android. Supporting three kinds of keyboard:
 Letter, Number, Symbol.
 
+## Requirements
+
+- minSdk 23+
+- compileSdk 35+ (AGP 8.x+ / Android Studio)
+
 ## Installation
-### Gradle
-**Step 1.** Add following code to your root build.gradle at the end of repositories
-```groovy
-allprojects {
+
+**Step 1.** Add the JitPack repository to your `settings.gradle(.kts)`:
+
+```kotlin
+dependencyResolutionManagement {
     repositories {
-	...
-	maven { url 'https://jitpack.io' }
+        google()
+        mavenCentral()
+        maven(url = "https://jitpack.io")
     }
 }
-``` 
+```
+
 **Step 2.** Add the dependency
-```groovy
+
+```kotlin
 dependencies {
-    implementation 'com.github.onlyloveyd:LazyKeyboard:v1.5'
+    implementation("com.github.onlyloveyd:LazyKeyboard:v1.6")
 }
 ```
 
