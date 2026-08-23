@@ -13,8 +13,5 @@ public class LazyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityLazyBinding binding = ActivityLazyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // binding.btnLogin.setOnClickListener(v ->
-        //         KeyboardDialog.show(this, binding.loginInputUsername));
     }
 }

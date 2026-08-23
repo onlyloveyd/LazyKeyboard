@@ -1,7 +1,9 @@
 package com.gs.keyboard;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -12,9 +14,12 @@ import android.text.Editable;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.gs.keyboard.databinding.DialogKeyboardBinding;
@@ -25,6 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardActionListener {
+    private static final long PAN_ANIMATION_DURATION_MS = 200L;
     private static final int ORDER_NUMBER = 0;
     private static final int ORDER_SYMBOL = 1;
     private static final int ORDER_LETTER = 2;
@@ -93,6 +99,81 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
             window.setAttributes(layoutParams);
             window.setWindowAnimations(R.style.KeyboardDialogAnimation);
         }
+        scheduleContentPan();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        restoreContentPan();
+    }
+
+    /**
+     * 键盘布局完成后测量其对目标输入框的遮挡量，
+     * 如有遮挡则将宿主 Activity 的内容视图整体上移（等价 adjustPan）。
+     */
+    private void scheduleContentPan() {
+        final View rootView = mBinding.getRoot();
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        rootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        panContentAboveKeyboardIfNeeded();
+                    }
+                });
+    }
+
+    private void panContentAboveKeyboardIfNeeded() {
+        SecurityEditText target = mTargetEditText.get();
+        View contentView = getActivityContentView();
+        if (target == null || contentView == null) {
+            return;
+        }
+        // 归零后重新测量，保证重复 show 时基准一致
+        contentView.animate().cancel();
+        contentView.setTranslationY(0);
+
+        int[] dialogLocation = new int[2];
+        int[] targetLocation = new int[2];
+        mBinding.getRoot().getLocationOnScreen(dialogLocation);
+        target.getLocationOnScreen(targetLocation);
+        int targetBottom = targetLocation[1] + target.getHeight();
+        int overlap = targetBottom - dialogLocation[1];
+        if (overlap > 0) {
+            float marginPx = 8 * getContext().getResources().getDisplayMetrics().density;
+            contentView.animate()
+                    .translationY(-(overlap + marginPx))
+                    .setDuration(PAN_ANIMATION_DURATION_MS)
+                    .start();
+        }
+    }
+
+    private void restoreContentPan() {
+        View contentView = getActivityContentView();
+        if (contentView != null) {
+            contentView.animate().cancel();
+            contentView.animate()
+                    .translationY(0)
+                    .setDuration(PAN_ANIMATION_DURATION_MS)
+                    .start();
+        }
+    }
+
+    @Nullable
+    private View getActivityContentView() {
+        Context context = getContext();
+        while (!(context instanceof Activity) && context instanceof ContextWrapper) {
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (activity.isFinishing() || activity.isDestroyed()) {
+                return null;
+            }
+            return activity.findViewById(android.R.id.content);
+        }
+        return null;
     }
 
     private void initAttribute() {

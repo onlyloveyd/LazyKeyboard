@@ -7,6 +7,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
@@ -46,6 +48,17 @@ public class SecurityEditText extends AppCompatEditText {
     private void initialize() {
         setClickable(true);
         setShowSoftInputOnFocus(false);
+    }
+
+    /**
+     * 返回 null 使任何输入法都无法绑定当前输入框：
+     * setShowSoftInputOnFocus(false) 只能阻止"聚焦弹窗"，
+     * 长按选择、业务代码主动 showSoftInput、部分 ROM 在窗口焦点变化时
+     * 仍可能唤起系统键盘，这里从绑定层面彻底杜绝。
+     */
+    @Override
+    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        return null;
     }
 
 

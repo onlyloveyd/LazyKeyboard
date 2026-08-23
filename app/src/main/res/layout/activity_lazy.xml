@@ -1,79 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fitsSystemWindows="true">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="LazyKeyboard 示例"
+        app:titleTextColor="@color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingTop="16dp">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="logo"
+                android:src="@drawable/logo" />
+
+            <!-- 场景 1 -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/ic_back" />
+                android:text="场景 1：系统键盘永不弹出"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/login_layout"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp">
+                android:layout_marginTop="4dp"
+                android:text="普通 EditText（对照组：会弹系统键盘）"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="72dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="24dp"
-                    android:contentDescription="logo"
-                    android:src="@drawable/logo" />
+            <EditText
+                android:id="@+id/login_input_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="用户名"
+                android:inputType="textEmailAddress" />
 
-                <EditText
-                    android:id="@+id/login_input_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:hint="用户名"
-                    android:inputType="textEmailAddress" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="安全输入框（只弹 LazyKeyboard。试试连点、长按、切后台再回来，系统键盘都不应出现）"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
 
+            <com.gs.keyboard.SecurityEditText
+                android:id="@+id/login_input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="密码"
+                android:inputType="textPassword"
+                app:chooserSelectedColor="#000000"
+                app:chooserUnselectedColor="#999999"
+                app:keyPreview="true"
+                app:keyboardBackground="@drawable/keyboard_bg" />
 
-                <com.gs.keyboard.SecurityEditText
-                    android:id="@+id/login_input_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:hint="密码"
-                    android:inputType="textPassword"
-                    app:chooserBackground="@color/iron"
-                    app:chooserSelectedColor="#000000"
-                    app:chooserUnselectedColor="#999999"
-                    app:keyPreview="true"
-                    app:keyboardBackground="@drawable/keyboard_bg" />
+            <!-- 场景 2 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="场景 2：两个安全输入框直接切换"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_login"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="24dp"
-                    android:padding="12dp"
-                    android:text="登录" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="两个框之间直接点击切换焦点：键盘不应卡死，关闭后页面位置应完全复原"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/link_signup"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:gravity="center"
-                    android:text="没有账号？注册一个"
-                    android:textSize="16dip" />
+            <com.gs.keyboard.SecurityEditText
+                android:id="@+id/login_input_password_a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="密码 A"
+                android:inputType="textPassword"
+                app:chooserSelectedColor="#000000"
+                app:chooserUnselectedColor="#999999"
+                app:keyPreview="true" />
 
-            </LinearLayout>
+            <com.gs.keyboard.SecurityEditText
+                android:id="@+id/login_input_password_b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:hint="密码 B"
+                android:inputType="textPassword"
+                app:chooserSelectedColor="#000000"
+                app:chooserUnselectedColor="#999999"
+                app:keyPreview="true" />
+
         </LinearLayout>
     </ScrollView>
+
+    <!-- 场景 3：固定在屏幕最底部，键盘弹出必然遮挡，验证自动抬升 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="场景 3：底部输入框（防遮挡自动抬升）"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="点击后键盘弹出，本区域应自动上移露出输入框；关闭键盘后应平滑复原"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp" />
+
+        <com.gs.keyboard.SecurityEditText
+            android:id="@+id/login_input_password_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:hint="底部密码"
+            android:inputType="textPassword"
+            app:chooserSelectedColor="#000000"
+            app:chooserUnselectedColor="#999999"
+            app:keyPreview="true" />
+    </LinearLayout>
+</LinearLayout>

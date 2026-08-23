@@ -2,10 +2,16 @@
 agp = "9.2.1"
 appcompat = "1.8.0"
 constraintlayout = "2.2.2"
+junit = "4.13.2"
+robolectric = "4.16"
+testCore = "1.7.0"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "testCore" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
