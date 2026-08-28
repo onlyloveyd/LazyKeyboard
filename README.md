@@ -34,6 +34,7 @@ LazyKeyboard shows its own bottom keyboard and inserts characters directly into 
 ## Requirements
 
 - minSdk 23, compileSdk 35+
+- v1.7 replaced the rendering layer with a self-drawn view and added the key-input callback (`OnSecurityKeyListener`) — no breaking API changes.
 - v1.6 raised minSdk from 19 to 23 (required by AndroidX). Stay on [v1.5](https://github.com/onlyloveyd/LazyKeyboard/tree/28cba58) if you must support Android 5.x.
 
 ## Installation
@@ -54,7 +55,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.onlyloveyd:LazyKeyboard:v1.6")
+    implementation("com.github.onlyloveyd:LazyKeyboard:v1.7")
 }
 ```
 

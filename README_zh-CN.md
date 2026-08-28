@@ -34,6 +34,7 @@ LazyKeyboard 使用自己的底部键盘直接向输入框写入字符，系统�
 ## 环境要求
 
 - minSdk 23，compileSdk 35+
+- v1.7 将键盘渲染层替换为自绘实现，并新增输入回调（`OnSecurityKeyListener`），无破坏性 API 变更。
 - v1.6 将 minSdk 从 19 提升到了 23（AndroidX 的硬性要求）。如需支持 Android 5.x，请继续使用 [v1.5](https://github.com/onlyloveyd/LazyKeyboard/tree/28cba58)。
 
 ## 引入
@@ -54,7 +55,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("com.github.onlyloveyd:LazyKeyboard:v1.6")
+    implementation("com.github.onlyloveyd:LazyKeyboard:v1.7")
 }
 ```
 
