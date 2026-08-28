@@ -48,6 +48,6 @@
             app:keyLabel="0" />
         <Key
             app:codes="-3"
-            app:keyLabel="完成" />
+            app:keyLabel="@string/key_done" />
     </Row>
 </Keyboard>

@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import com.gs.keyboard.databinding.DialogKeyboardBinding;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -279,7 +280,7 @@ public class KeyboardDialog extends Dialog implements SecurityKeyboardView.OnKey
 
     private boolean isNumber(String str) {
         String numStr = getContext().getString(R.string.zeroToNine);
-        return numStr.contains(str.toLowerCase());
+        return numStr.contains(str.toLowerCase(Locale.ROOT));
     }
 
     /**
@@ -292,7 +293,7 @@ public class KeyboardDialog extends Dialog implements SecurityKeyboardView.OnKey
                 isUpper = false;
                 for (KeyboardLayout.Key key : keys) {
                     if (key.label != null && isLetter(key.label.toString())) {
-                        key.label = key.label.toString().toLowerCase();
+                        key.label = key.label.toString().toLowerCase(Locale.ROOT);
                         key.codes[0] = key.codes[0] + 32;
                     }
                     if (key.codes[0] == KeyboardLayout.KEYCODE_SHIFT) {
@@ -303,7 +304,7 @@ public class KeyboardDialog extends Dialog implements SecurityKeyboardView.OnKey
                 isUpper = true;
                 for (KeyboardLayout.Key key : keys) {
                     if (key.label != null && isLetter(key.label.toString())) {
-                        key.label = key.label.toString().toUpperCase();
+                        key.label = key.label.toString().toUpperCase(Locale.ROOT);
                         key.codes[0] = key.codes[0] - 32;
                     }
                     if (key.codes[0] == KeyboardLayout.KEYCODE_SHIFT) {
@@ -316,7 +317,7 @@ public class KeyboardDialog extends Dialog implements SecurityKeyboardView.OnKey
 
     private boolean isLetter(String str) {
         String letterStr = getContext().getString(R.string.aToz);
-        return letterStr.contains(str.toLowerCase());
+        return letterStr.contains(str.toLowerCase(Locale.ROOT));
     }
 
     @Override

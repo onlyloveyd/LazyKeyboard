@@ -113,9 +113,10 @@ public class KeyboardLayoutTest {
         assertNotNull(space);
         assertEquals("", space.label.toString());
 
+        // keyLabel 引用 @string/key_done,随系统语言本地化(测试环境为英文)
         KeyboardLayout.Key done = findKeyByCode(english, KeyboardLayout.KEYCODE_CANCEL);
         assertNotNull(done);
-        assertEquals("完成", done.label.toString());
+        assertEquals("Done", done.label.toString());
     }
 
     @Test

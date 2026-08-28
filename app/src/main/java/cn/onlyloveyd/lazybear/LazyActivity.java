@@ -1,5 +1,6 @@
 package cn.onlyloveyd.lazybear;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,9 @@ public class LazyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityLazyBinding binding = ActivityLazyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.btnComposeDemo.setOnClickListener(v ->
+                startActivity(new Intent(this, ComposeDemoActivity.class)));
 
         binding.loginInputPassword.setOnSecurityKeyListener(new OnSecurityKeyListener() {
             private final StringBuilder trace = new StringBuilder();

@@ -27,3 +27,4 @@ dependencyResolutionManagement {
 rootProject.name = "LazyKeyboard"
 include(":app")
 include(":lazykeyboard")
+include(":lazykeyboard-compose")

@@ -11,6 +11,8 @@
 
 ## Preview
 
+![demo](screenshot/lazykeyboard_demo.gif)
+
 | Letter | Symbol | Number (randomized) | Custom colors |
 |:---:|:---:|:---:|:---:|
 | ![letter](screenshot/letter.png) | ![symbol](screenshot/symbol.png) | ![number](screenshot/number.png) | ![custom](screenshot/new_keyboard.png) |
@@ -108,9 +110,36 @@ editText.setOnSecurityKeyListener((primaryCode, label) -> {
 
 Functional keys (shift / done / delete) arrive as negative codes — the constants live on the listener interface.
 
+## Compose
+
+For Compose apps, add the optional `lazykeyboard-compose` artifact (the core stays pure Java with zero Kotlin runtime — only add this if you use Compose):
+
+```kotlin
+dependencies {
+    implementation("com.github.onlyloveyd.LazyKeyboard:lazykeyboard-compose:v1.8")
+    implementation("com.github.onlyloveyd.LazyKeyboard:v1.8")
+}
+```
+
+`SecurityTextField` wraps `SecurityEditText` via interop and exposes the input as observable Compose state:
+
+```kotlin
+val passwordState = rememberSecurityInputState()
+
+SecurityTextField(
+    state = passwordState,
+    hint = "Password",
+    isPassword = true,
+)
+
+Text("Entered ${passwordState.text.length} characters")
+```
+
+A working demo is included in the sample app (`app` module).
+
 ## Localization
 
-The default chooser labels (字母 / 符号 / 数字) are library string resources. Override `title_letter`, `title_symbol` and `title_number` in your app to localize them.
+Default strings ship in Chinese with an English variant (`values-en`) included — the chooser labels (ABC / Sym / 123) and the done key localize automatically on English devices. To add more languages, override `title_letter`, `title_symbol`, `title_number` and `key_done` in your app's `values-<locale>` folders.
 
 ## Known limitations
 

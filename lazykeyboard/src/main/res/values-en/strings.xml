@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_letter">ABC</string>
+    <string name="title_symbol">Sym</string>
+    <string name="title_number">123</string>
+    <string name="key_done">Done</string>
+    <string name="exception_invalid_keyboard">Invalid keyboard type</string>
+</resources>

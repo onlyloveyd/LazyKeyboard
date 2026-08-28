@@ -116,7 +116,7 @@
             app:keyLabel="/" />
         <Key
             app:codes="-3"
-            app:keyLabel="完成"
+            app:keyLabel="@string/key_done"
             app:keyWidth="20.000004%p" />
     </Row>
 </Keyboard>

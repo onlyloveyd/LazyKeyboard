@@ -55,7 +55,8 @@ publishing {
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
+    // SecurityEditText 继承 AppCompatEditText，appcompat 属于对外 API 的一部分
+    api(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)

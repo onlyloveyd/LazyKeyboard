@@ -108,7 +108,7 @@
             app:keyWidth="75.999998%p" />
         <Key
             app:codes="-3"
-            app:keyLabel="完成"
+            app:keyLabel="@string/key_done"
             app:keyWidth="19.380004%p" />
     </Row>
 </Keyboard>

@@ -11,6 +11,8 @@
 
 ## 预览
 
+![演示](screenshot/lazykeyboard_demo.gif)
+
 | 字母 | 符号 | 数字（乱序） | 自定义配色 |
 |:---:|:---:|:---:|:---:|
 | ![letter](screenshot/letter.png) | ![symbol](screenshot/symbol.png) | ![number](screenshot/number.png) | ![custom](screenshot/new_keyboard.png) |
@@ -108,9 +110,36 @@ editText.setOnSecurityKeyListener((primaryCode, label) -> {
 
 功能键（大小写 / 完成 / 删除）以负数编码下发，常量定义在监听器接口上。
 
+## Compose
+
+Compose 项目可选用 `lazykeyboard-compose` 依赖（核心库保持纯 Java、零 Kotlin 运行时，不用 Compose 就不要加）：
+
+```kotlin
+dependencies {
+    implementation("com.github.onlyloveyd.LazyKeyboard:lazykeyboard-compose:v1.8")
+    implementation("com.github.onlyloveyd.LazyKeyboard:v1.8")
+}
+```
+
+`SecurityTextField` 通过互操作包装 `SecurityEditText`，把输入内容暴露为可观察的 Compose 状态：
+
+```kotlin
+val passwordState = rememberSecurityInputState()
+
+SecurityTextField(
+    state = passwordState,
+    hint = "支付密码",
+    isPassword = true,
+)
+
+Text("已输入 ${passwordState.text.length} 位")
+```
+
+示例工程（`app` 模块）内含完整演示页。
+
 ## 本地化
 
-切换栏默认文案（字母 / 符号 / 数字）是库内的字符串资源。在应用内重写 `title_letter`、`title_symbol`、`title_number` 即可完成本地化。
+默认文案为中文，并内置英文（`values-en`）：切换栏标签（ABC / Sym / 123）与完成键在英文设备上会自动本地化。如需更多语言，在应用的 `values-<locale>` 目录重写 `title_letter`、`title_symbol`、`title_number`、`key_done` 即可。
 
 ## 已知局限
 
