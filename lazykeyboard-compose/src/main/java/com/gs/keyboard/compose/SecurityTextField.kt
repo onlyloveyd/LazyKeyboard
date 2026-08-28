@@ -3,6 +3,10 @@ package com.gs.keyboard.compose
 import android.text.InputType
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.gs.keyboard.SecurityEditText
@@ -28,6 +32,10 @@ fun SecurityTextField(
     isPassword: Boolean = true,
     onKey: (primaryCode: Int, label: CharSequence?) -> Unit = { _, _ -> },
 ) {
+    // 跨配置变更记住输入框是否持有焦点：旋转后恢复焦点，
+    // SecurityEditText 的聚焦逻辑会随之重新弹出键盘（与系统输入法行为一致）
+    var focused by rememberSaveable { mutableStateOf(false) }
+
     AndroidView<SecurityEditText>(
         modifier = modifier.fillMaxWidth(),
         factory = { context ->
@@ -44,6 +52,11 @@ fun SecurityTextField(
             editText.setOnSecurityKeyListener { primaryCode: Int, label: CharSequence? ->
                 state.dispatchKey(primaryCode)
                 onKey(primaryCode, label)
+            }
+            editText.setOnFocusChangeListener { _, hasFocus -> focused = hasFocus }
+            if (focused && !editText.hasFocus()) {
+                // 重建的输入框：post 到视图附着后再恢复焦点，键盘随之弹出
+                editText.post { editText.requestFocus() }
             }
             // 配置变更后 factory 重建了空的输入框、或 clear() 只改了状态时，
             // 把状态同步回输入框；正常键盘输入两者一致，不会走到这里
