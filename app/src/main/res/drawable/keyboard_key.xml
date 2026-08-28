@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  #13 回归复现：应用模块的同名资源会在构建时覆盖库内的 drawable/keyboard_key.xml。
+  旧实现（框架 KeyboardView）中所有按键共用一个 drawable 实例，selector 带
+  fade 时长会把上一个按键的按压态淡入到整个键盘上，导致按键错乱；
+  自绘 SecurityKeyboardView 为每个按键分配独立实例，各按键独立淡入淡出。
+  不需要演示此效果时删除本文件即可，恢复库内默认的瞬时切换样式。
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="300"
+    android:exitFadeDuration="300">
+    <item android:state_pressed="true" android:drawable="@drawable/keyboard_key_bg_c" />
+    <item android:drawable="@drawable/keyboard_key_bg" />
+</selector>

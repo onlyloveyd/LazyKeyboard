@@ -74,7 +74,7 @@ public class SecurityKeyboardView extends View {
 
     private PopupWindow mPreviewPopup;
     private TextView mPreviewText;
-    private final int[] mScreenLocation = new int[2];
+    private final int[] mWindowLocation = new int[2];
 
     private final Runnable mRepeatRunnable = new Runnable() {
         @Override
@@ -422,17 +422,20 @@ public class SecurityKeyboardView extends View {
                 key.width + mPreviewText.getPaddingLeft() + mPreviewText.getPaddingRight());
         int popupHeight = mPreviewHeight;
 
-        getLocationOnScreen(mScreenLocation);
-        int keyCenterX = mScreenLocation[0] + getPaddingLeft() + key.x + key.width / 2;
+        // PopupWindow.showAtLocation 的坐标是宿主窗口相对坐标，必须用
+        // getLocationInWindow（getLocationOnScreen 是屏幕坐标，会导致气泡被
+        // WindowManager 钳到屏幕底端）
+        getLocationInWindow(mWindowLocation);
+        int keyCenterX = mWindowLocation[0] + getPaddingLeft() + key.x + key.width / 2;
         int popupX = keyCenterX - popupWidth / 2;
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         popupX = Math.max(0, Math.min(popupX, screenWidth - popupWidth));
 
-        int keyTopOnScreen = mScreenLocation[1] + getPaddingTop() + key.y;
-        int popupY = keyTopOnScreen - popupHeight - dp(8);
+        int keyTopInWindow = mWindowLocation[1] + getPaddingTop() + key.y;
+        int popupY = keyTopInWindow - popupHeight - dp(8);
         if (popupY < 0) {
             // 上方空间不足（首行按键）时改为贴在按键下方
-            popupY = keyTopOnScreen + key.height + dp(8);
+            popupY = keyTopInWindow + key.height + dp(8);
         }
 
         if (mPreviewPopup.isShowing()) {
