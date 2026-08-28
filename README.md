@@ -90,13 +90,30 @@ All attributes are optional.
 | `keyboardBackground` | color / drawable | background of the keyboard area |
 | `keyPreview` | boolean | whether to show the key preview popup when a key is tapped |
 
+## Key input callback
+
+`OnSecurityKeyListener` reports every key press **before** it is applied to the field, so you can maintain your own encrypted copy of the input or audit the key sequence:
+
+```java
+SecurityEditText editText = findViewById(R.id.login_input_password);
+editText.setOnSecurityKeyListener((primaryCode, label) -> {
+    if (primaryCode == OnSecurityKeyListener.KEYCODE_DELETE) {
+        // delete one char from your own encrypted buffer
+    } else if (primaryCode >= 0) {
+        // append the character to your own encrypted buffer
+    }
+});
+```
+
+Functional keys (shift / done / delete) arrive as negative codes — the constants live on the listener interface.
+
 ## Localization
 
 The default chooser labels (字母 / 符号 / 数字) are library string resources. Override `title_letter`, `title_symbol` and `title_number` in your app to localize them.
 
 ## Known limitations
 
-- Built on the framework `KeyboardView`, which Android deprecated in API 29. It still works and will keep working, but it no longer receives fixes or features.
+- The keyboard is rendered by the library's own self-drawn view (`SecurityKeyboardView`); it no longer depends on the framework `KeyboardView` that Android deprecated in API 29. Each key owns an independent background drawable instance, so animated selectors no longer corrupt the rendering.
 - Because the field rejects all IMEs, IME-driven text composition (and on Android 6–8, clipboard paste via long-press) will not work on `SecurityEditText` — that is the intended security trade-off.
 - This is UI-layer protection: it stops IME capture and casual shoulder-surfing. It does not encrypt input or protect a compromised device — for regulated deployments, pair it with your own encryption of the submitted value.
 

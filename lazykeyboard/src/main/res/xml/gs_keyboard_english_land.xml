@@ -1,121 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:horizontalGap="4dip"
-    android:keyHeight="@dimen/key_height_land"
-    android:keyWidth="8.99999%p"
-    android:verticalGap="4dip">
+<Keyboard xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:horizontalGap="4dip"
+    app:keyHeight="@dimen/key_height_land"
+    app:keyWidth="8.99999%p"
+    app:verticalGap="4dip">
     <Row>
         <Key
-            android:codes="113"
-            android:keyEdgeFlags="left"
-            android:keyLabel="q" />
+            app:codes="113"
+            app:keyLabel="q" />
         <Key
-            android:codes="119"
-            android:keyLabel="w" />
+            app:codes="119"
+            app:keyLabel="w" />
         <Key
-            android:codes="101"
-            android:keyLabel="e" />
+            app:codes="101"
+            app:keyLabel="e" />
         <Key
-            android:codes="114"
-            android:keyLabel="r" />
+            app:codes="114"
+            app:keyLabel="r" />
         <Key
-            android:codes="116"
-            android:keyLabel="t" />
+            app:codes="116"
+            app:keyLabel="t" />
         <Key
-            android:codes="121"
-            android:keyLabel="y" />
+            app:codes="121"
+            app:keyLabel="y" />
         <Key
-            android:codes="117"
-            android:keyLabel="u" />
+            app:codes="117"
+            app:keyLabel="u" />
         <Key
-            android:codes="105"
-            android:keyLabel="i" />
+            app:codes="105"
+            app:keyLabel="i" />
         <Key
-            android:codes="111"
-            android:keyLabel="o" />
+            app:codes="111"
+            app:keyLabel="o" />
         <Key
-            android:codes="112"
-            android:keyEdgeFlags="right"
-            android:keyLabel="p" />
+            app:codes="112"
+            app:keyLabel="p" />
     </Row>
     <Row>
         <Key
-            android:codes="97"
-            android:horizontalGap="4.999995%p"
-            android:keyEdgeFlags="left"
-            android:keyLabel="a" />
+            app:codes="97"
+            app:horizontalGap="4.999995%p"
+            app:keyLabel="a" />
         <Key
-            android:codes="115"
-            android:keyLabel="s" />
+            app:codes="115"
+            app:keyLabel="s" />
         <Key
-            android:codes="100"
-            android:keyLabel="d" />
+            app:codes="100"
+            app:keyLabel="d" />
         <Key
-            android:codes="102"
-            android:keyLabel="f" />
+            app:codes="102"
+            app:keyLabel="f" />
         <Key
-            android:codes="103"
-            android:keyLabel="g" />
+            app:codes="103"
+            app:keyLabel="g" />
         <Key
-            android:codes="104"
-            android:keyLabel="h" />
+            app:codes="104"
+            app:keyLabel="h" />
         <Key
-            android:codes="106"
-            android:keyLabel="j" />
+            app:codes="106"
+            app:keyLabel="j" />
         <Key
-            android:codes="107"
-            android:keyLabel="k" />
+            app:codes="107"
+            app:keyLabel="k" />
         <Key
-            android:codes="108"
-            android:keyEdgeFlags="right"
-            android:keyLabel="l" />
+            app:codes="108"
+            app:keyLabel="l" />
     </Row>
     <Row>
         <Key
-            android:codes="-1"
-            android:isModifier="true"
-            android:isSticky="true"
-            android:keyEdgeFlags="left"
-            android:keyIcon="@drawable/keyboard_shift"
-            android:keyWidth="13.799998%p" />
+            app:codes="-1"
+            app:isModifier="true"
+            app:isSticky="true"
+            app:keyIcon="@drawable/keyboard_shift"
+            app:keyWidth="13.799998%p" />
         <Key
-            android:codes="122"
-            android:keyLabel="z" />
+            app:codes="122"
+            app:keyLabel="z" />
         <Key
-            android:codes="120"
-            android:keyLabel="x" />
+            app:codes="120"
+            app:keyLabel="x" />
         <Key
-            android:codes="99"
-            android:keyLabel="c" />
+            app:codes="99"
+            app:keyLabel="c" />
         <Key
-            android:codes="118"
-            android:keyLabel="v" />
+            app:codes="118"
+            app:keyLabel="v" />
         <Key
-            android:codes="98"
-            android:keyLabel="b" />
+            app:codes="98"
+            app:keyLabel="b" />
         <Key
-            android:codes="110"
-            android:keyLabel="n" />
+            app:codes="110"
+            app:keyLabel="n" />
         <Key
-            android:codes="109"
-            android:keyLabel="m" />
+            app:codes="109"
+            app:keyLabel="m" />
         <Key
-            android:codes="-5"
-            android:isRepeatable="true"
-            android:keyEdgeFlags="right"
-            android:keyIcon="@drawable/keyboard_delete"
-            android:keyWidth="13.799998%p" />
+            app:codes="-5"
+            app:isRepeatable="true"
+            app:keyIcon="@drawable/keyboard_delete"
+            app:keyWidth="13.799998%p" />
     </Row>
-    <Row android:rowEdgeFlags="bottom">
+    <Row>
 
         <Key
-            android:codes="32"
-            android:keyLabel=""
-            android:keyWidth="75.999998%p" />
+            app:codes="32"
+            app:keyLabel=""
+            app:keyWidth="75.999998%p" />
         <Key
-            android:codes="-3"
-            android:keyEdgeFlags="right"
-            android:keyLabel="完成"
-            android:keyWidth="19.380004%p" />
+            app:codes="-3"
+            app:keyLabel="完成"
+            app:keyWidth="19.380004%p" />
     </Row>
 </Keyboard>

@@ -12,4 +12,27 @@
         <attr name="keyboardBackground" />
         <attr name="keyPreview" />
     </declare-styleable>
+
+    <!-- 自绘键盘布局文件（res/xml）中的 <Keyboard>/<Row>/<Key> 属性 -->
+    <declare-styleable name="KeyboardLayout">
+        <attr name="keyWidth" format="dimension|fraction" />
+        <attr name="keyHeight" format="dimension|fraction" />
+        <attr name="horizontalGap" format="dimension|fraction" />
+        <attr name="verticalGap" format="dimension|fraction" />
+        <attr name="codes" format="integer|string" />
+        <attr name="keyLabel" format="string" />
+        <attr name="keyIcon" format="reference" />
+        <attr name="isRepeatable" format="boolean" />
+        <attr name="isModifier" format="boolean" />
+        <attr name="isSticky" format="boolean" />
+    </declare-styleable>
+
+    <!-- 自绘键盘视图（SecurityKeyboardView）的视图属性 -->
+    <declare-styleable name="SecurityKeyboardView">
+        <attr name="keyBackground" format="reference" />
+        <attr name="keyTextSize" format="dimension" />
+        <attr name="keyTextColor" format="color" />
+        <attr name="labelTextSize" format="dimension" />
+        <attr name="keyPreviewHeight" format="dimension" />
+    </declare-styleable>
 </resources>

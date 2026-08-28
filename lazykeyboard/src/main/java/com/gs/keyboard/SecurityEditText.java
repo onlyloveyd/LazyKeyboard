@@ -23,6 +23,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 public class SecurityEditText extends AppCompatEditText {
     private KeyboardDialog dialog;
     private KeyboardAttribute keyboardAttribute;
+    private OnSecurityKeyListener onSecurityKeyListener;
 
     public SecurityEditText(Context context) {
         this(context, null);
@@ -147,5 +148,21 @@ public class SecurityEditText extends AppCompatEditText {
 
     public KeyboardAttribute getKeyboardAttribute() {
         return keyboardAttribute;
+    }
+
+    /**
+     * 注册输入回调，按键生效前触发，可用于维护加密序列或输入审计。
+     */
+    public void setOnSecurityKeyListener(OnSecurityKeyListener listener) {
+        this.onSecurityKeyListener = listener;
+    }
+
+    /**
+     * 仅供 KeyboardDialog 在按键作用到文本前调用。
+     */
+    void dispatchSecurityKey(int primaryCode, @Nullable CharSequence label) {
+        if (onSecurityKeyListener != null) {
+            onSecurityKeyListener.onKey(primaryCode, label);
+        }
     }
 }

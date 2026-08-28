@@ -90,13 +90,30 @@ dependencies {
 | `keyboardBackground` | color / drawable | 键盘区域背景 |
 | `keyPreview` | boolean | 按键按下时是否显示预览气泡 |
 
+## 输入回调
+
+`OnSecurityKeyListener` 在每次按键作用到输入框**之前**触发，接入方可以借此维护自己的加密序列，或做输入审计：
+
+```java
+SecurityEditText editText = findViewById(R.id.login_input_password);
+editText.setOnSecurityKeyListener((primaryCode, label) -> {
+    if (primaryCode == OnSecurityKeyListener.KEYCODE_DELETE) {
+        // 从自己的加密序列中删除一位
+    } else if (primaryCode >= 0) {
+        // 向自己的加密序列追加该字符
+    }
+});
+```
+
+功能键（大小写 / 完成 / 删除）以负数编码下发，常量定义在监听器接口上。
+
 ## 本地化
 
 切换栏默认文案（字母 / 符号 / 数字）是库内的字符串资源。在应用内重写 `title_letter`、`title_symbol`、`title_number` 即可完成本地化。
 
 ## 已知局限
 
-- 基于框架自带的 `KeyboardView`（API 29 起被标记废弃）。它依然可用且会持续可用，但不再获得修复与新特性。
+- 键盘由库内自绘视图（`SecurityKeyboardView`）渲染，不再依赖框架在 API 29 标记废弃的 `KeyboardView`；每个按键持有独立的背景 drawable 实例，keyBackground 使用带动画的 selector 也不会再导致渲染错乱。
 - 由于拒绝一切输入法绑定，输入法组合输入（以及 Android 6–8 上长按粘贴）在 `SecurityEditText` 上不可用——这是安全上的有意取舍。
 - 本库只提供 UI 层防护：能防输入法抓取与普通肩窥，不加密输入内容，也无法保护已被入侵的设备。有合规要求的场景请将本库与你们自身的提交值加密方案配合使用。
 

@@ -25,6 +25,13 @@ android {
         viewBinding = true
     }
 
+    testOptions {
+        unitTests {
+            // Robolectric 测试需要访问 res/xml 键盘布局等资源
+            isIncludeAndroidResources = true
+        }
+    }
+
     publishing {
         singleVariant("release")
     }

@@ -7,8 +7,6 @@ import android.content.ContextWrapper;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.SparseArray;
@@ -29,18 +27,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardActionListener {
+public class KeyboardDialog extends Dialog implements SecurityKeyboardView.OnKeyActionListener {
     private static final long PAN_ANIMATION_DURATION_MS = 200L;
     private static final int ORDER_NUMBER = 0;
     private static final int ORDER_SYMBOL = 1;
     private static final int ORDER_LETTER = 2;
 
     private DialogKeyboardBinding mBinding;
-    private Keyboard mLetterKeyboard;
-    private Keyboard mSymbolKeyboard;
-    private Keyboard mNumberKeyboard;
+    private KeyboardLayout mLetterKeyboard;
+    private KeyboardLayout mSymbolKeyboard;
+    private KeyboardLayout mNumberKeyboard;
     private int mCurrentOrder;
-    private SparseArray<Keyboard> mOrderToKeyboard;
+    private SparseArray<KeyboardLayout> mOrderToKeyboard;
     private ArrayList<String> mNumberPool;
 
     private ColorStateList mSelectedTextColor = ColorStateList.valueOf(Color.BLUE);
@@ -193,20 +191,16 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
         if (attribute.chooserUnselectedColor != null) {
             mUnSelectedTextColor = attribute.chooserUnselectedColor;
         }
-        if (attribute.isKeyPreview) {
-            mBinding.keyboardView.setPreviewEnabled(true);
-        } else {
-            mBinding.keyboardView.setPreviewEnabled(false);
-        }
-        mBinding.keyboardView.setOnKeyboardActionListener(this);
+        mBinding.keyboardView.setPreviewEnabled(attribute.isKeyPreview);
+        mBinding.keyboardView.setOnKeyActionListener(this);
         if (isPortrait()) {
-            mLetterKeyboard = new Keyboard(getContext(), R.xml.gs_keyboard_english);
-            mSymbolKeyboard = new Keyboard(getContext(), R.xml.gs_keyboard_symbols_shift);
-            mNumberKeyboard = new Keyboard(getContext(), R.xml.gs_keyboard_number);
+            mLetterKeyboard = KeyboardLayout.parse(getContext(), R.xml.gs_keyboard_english);
+            mSymbolKeyboard = KeyboardLayout.parse(getContext(), R.xml.gs_keyboard_symbols_shift);
+            mNumberKeyboard = KeyboardLayout.parse(getContext(), R.xml.gs_keyboard_number);
         } else {
-            mLetterKeyboard = new Keyboard(getContext(), R.xml.gs_keyboard_english_land);
-            mSymbolKeyboard = new Keyboard(getContext(), R.xml.gs_keyboard_symbols_shift_land);
-            mNumberKeyboard = new Keyboard(getContext(), R.xml.gs_keyboard_number_land);
+            mLetterKeyboard = KeyboardLayout.parse(getContext(), R.xml.gs_keyboard_english_land);
+            mSymbolKeyboard = KeyboardLayout.parse(getContext(), R.xml.gs_keyboard_symbols_shift_land);
+            mNumberKeyboard = KeyboardLayout.parse(getContext(), R.xml.gs_keyboard_number_land);
         }
         if (isNumberRandom) {
             randomNumbers();
@@ -270,8 +264,8 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
     private void randomNumbers() {
         if (mNumberKeyboard != null) {
             ArrayList<String> source = new ArrayList<>(mNumberPool);
-            List<Keyboard.Key> keys = mNumberKeyboard.getKeys();
-            for (Keyboard.Key key : keys) {
+            List<KeyboardLayout.Key> keys = mNumberKeyboard.getKeys();
+            for (KeyboardLayout.Key key : keys) {
                 if (key.label != null && isNumber(key.label.toString())) {
                     int number = mRandom.nextInt(source.size());
                     String[] text = source.get(number).split("#");
@@ -293,26 +287,26 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
      */
     private void changeKey() {
         if (mLetterKeyboard != null) {
-            List<Keyboard.Key> keys = mLetterKeyboard.getKeys();
+            List<KeyboardLayout.Key> keys = mLetterKeyboard.getKeys();
             if (isUpper) {
                 isUpper = false;
-                for (Keyboard.Key key : keys) {
+                for (KeyboardLayout.Key key : keys) {
                     if (key.label != null && isLetter(key.label.toString())) {
                         key.label = key.label.toString().toLowerCase();
                         key.codes[0] = key.codes[0] + 32;
                     }
-                    if (key.codes[0] == -1) {
+                    if (key.codes[0] == KeyboardLayout.KEYCODE_SHIFT) {
                         key.icon = ContextCompat.getDrawable(getContext(), R.drawable.keyboard_shift);
                     }
                 }
             } else {// 小写切换大写
                 isUpper = true;
-                for (Keyboard.Key key : keys) {
+                for (KeyboardLayout.Key key : keys) {
                     if (key.label != null && isLetter(key.label.toString())) {
                         key.label = key.label.toString().toUpperCase();
                         key.codes[0] = key.codes[0] - 32;
                     }
-                    if (key.codes[0] == -1) {
+                    if (key.codes[0] == KeyboardLayout.KEYCODE_SHIFT) {
                         key.icon = ContextCompat.getDrawable(getContext(), R.drawable.keyboard_shift_c);
                     }
                 }
@@ -336,18 +330,25 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
     }
 
     @Override
-    public void onKey(int primaryCode, int[] keyCodes) {
-        Editable editable = mTargetEditText.get().getText();
-        int start = mTargetEditText.get().getSelectionStart();
-        if (primaryCode == Keyboard.KEYCODE_CANCEL) {
+    public void onKey(int primaryCode, @Nullable CharSequence label) {
+        SecurityEditText target = mTargetEditText.get();
+        if (target == null) {
+            return;
+        }
+        // 输入回调先于文本变化触发，接入方可借此维护自己的加密序列
+        target.dispatchSecurityKey(primaryCode, label);
+
+        Editable editable = target.getText();
+        int start = target.getSelectionStart();
+        if (primaryCode == KeyboardLayout.KEYCODE_CANCEL) {
             hideKeyboard();
-        } else if (primaryCode == Keyboard.KEYCODE_DELETE) {
+        } else if (primaryCode == KeyboardLayout.KEYCODE_DELETE) {
             if (editable != null && editable.length() > 0) {
                 if (start > 0) {
                     editable.delete(start - 1, start);
                 }
             }
-        } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {
+        } else if (primaryCode == KeyboardLayout.KEYCODE_SHIFT) {
             changeKey();
             mCurrentOrder = ORDER_LETTER;
             onCurrentKeyboardChange();
@@ -358,28 +359,5 @@ public class KeyboardDialog extends Dialog implements KeyboardView.OnKeyboardAct
 
     private void hideKeyboard() {
         this.dismiss();
-    }
-
-    @Override
-    public void onText(CharSequence text) {
-
-    }
-
-    @Override
-    public void swipeLeft() {
-    }
-
-    @Override
-    public void swipeRight() {
-    }
-
-    @Override
-    public void swipeDown() {
-
-    }
-
-    @Override
-    public void swipeUp() {
-
     }
 }

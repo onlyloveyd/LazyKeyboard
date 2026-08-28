@@ -4,21 +4,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.inputmethodservice.KeyboardView
+        <com.gs.keyboard.SecurityKeyboardView
             android:id="@+id/keyboard_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ebebeb"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:keyBackground="@drawable/keyboard_key"
-            android:keyTextColor="#000000"
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingRight="8dp"
             android:paddingBottom="8dp"
-            android:shadowRadius="0.0"
-            android:textStyle="normal"
+            app:keyBackground="@drawable/keyboard_key"
+            app:keyTextColor="#000000"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/keyboard_chooser" />

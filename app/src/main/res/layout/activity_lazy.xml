@@ -81,6 +81,16 @@
                 app:keyPreview="true"
                 app:keyboardBackground="@drawable/keyboard_bg" />
 
+            <TextView
+                android:id="@+id/tv_key_trace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="monospace"
+                android:text="输入回调演示：按键序列（OnSecurityKeyListener）"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
             <!-- 场景 2 -->
             <TextView
                 android:layout_width="match_parent"
