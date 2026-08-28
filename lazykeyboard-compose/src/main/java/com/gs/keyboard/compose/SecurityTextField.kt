@@ -4,7 +4,9 @@ import android.text.InputType
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,7 +36,10 @@ fun SecurityTextField(
 ) {
     // 跨配置变更记住输入框是否持有焦点：旋转后恢复焦点，
     // SecurityEditText 的聚焦逻辑会随之重新弹出键盘（与系统输入法行为一致）
-    var focused by rememberSaveable { mutableStateOf(false) }
+    // 显式 Boolean Saver:rememberSaveable 的 autoSaver 对 MutableState 在当前
+    // Compose 版本上保存后不恢复(真机验证),焦点标记会静默回到 false
+    val focusSaver = Saver<Boolean, Boolean>(save = { it }, restore = { it })
+    var focused by rememberSaveable(stateSaver = focusSaver) { mutableStateOf(false) }
 
     AndroidView<SecurityEditText>(
         modifier = modifier.fillMaxWidth(),
