@@ -45,4 +45,14 @@ class SecurityInputStateTest {
         state.clear()
         assertEquals("", state.text)
     }
+
+    @Test
+    fun saver_restoresText_acrossConfigurationChange() {
+        // 旋转屏幕后 rememberSaveable 通过 Saver.restore 重建状态，内容不应丢失
+        val restored = SecurityInputState.SAVER.restore("lzy521")
+        assertEquals("lzy521", restored?.text)
+        // 后续按键继续在恢复后的内容上追加
+        restored?.dispatchKey('0'.code)
+        assertEquals("lzy5210", restored?.text)
+    }
 }

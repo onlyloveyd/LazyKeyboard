@@ -3,7 +3,8 @@ package com.gs.keyboard.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.gs.keyboard.OnSecurityKeyListener
 
@@ -30,11 +31,21 @@ class SecurityInputState(initial: String = "") {
     fun clear() {
         text = ""
     }
+
+    companion object {
+        /**
+         * 跨配置变更（旋转屏幕）与进程重建保存/恢复输入内容。
+         */
+        internal val SAVER: Saver<SecurityInputState, String> = Saver(
+            save = { it.text },
+            restore = { SecurityInputState(it) },
+        )
+    }
 }
 
 /**
- * 创建并记住一个 [SecurityInputState]。
+ * 创建并记住一个 [SecurityInputState]，输入内容在旋转屏幕等配置变更后保留。
  */
 @Composable
 fun rememberSecurityInputState(initial: String = ""): SecurityInputState =
-    remember { SecurityInputState(initial) }
+    rememberSaveable(saver = SecurityInputState.SAVER) { SecurityInputState(initial) }

@@ -45,6 +45,12 @@ fun SecurityTextField(
                 state.dispatchKey(primaryCode)
                 onKey(primaryCode, label)
             }
+            // 配置变更后 factory 重建了空的输入框、或 clear() 只改了状态时，
+            // 把状态同步回输入框；正常键盘输入两者一致，不会走到这里
+            if (editText.text.toString() != state.text) {
+                editText.setText(state.text)
+                editText.setSelection(state.text.length)
+            }
         },
     )
 }
