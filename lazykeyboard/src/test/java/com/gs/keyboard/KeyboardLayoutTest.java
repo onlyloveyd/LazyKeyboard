@@ -54,9 +54,37 @@ public class KeyboardLayoutTest {
     }
 
     @Test
-    public void firstKey_isOffsetByHorizontalGap() {
-        KeyboardLayout.Key firstKey = english.getKeys().get(0);
-        assertEquals(Math.round(4 * density), firstKey.getX());
+    public void rows_areCentered_symmetricSideMargins() {
+        // 行内居中：每行首个按键的左留白 == 最后一个按键的右留白（±1px 容差）。
+        // 布局百分比按内容宽度解析后总宽小于基准，余量必须平分到两侧，
+        // 否则键盘整体会偏左、右侧留白偏大。
+        assertSymmetricMargins(english);
+        assertSymmetricMargins(number);
+    }
+
+    private static void assertSymmetricMargins(KeyboardLayout layout) {
+        List<KeyboardLayout.Key> keys = layout.getKeys();
+        KeyboardLayout.Row currentRow = null;
+        KeyboardLayout.Key first = null;
+        KeyboardLayout.Key last = null;
+        for (KeyboardLayout.Key key : keys) {
+            if (key.row != currentRow) {
+                if (first != null) {
+                    checkSymmetric(first, last);
+                }
+                currentRow = key.row;
+                first = key;
+            }
+            last = key;
+        }
+        checkSymmetric(first, last);
+    }
+
+    private static void checkSymmetric(KeyboardLayout.Key first, KeyboardLayout.Key last) {
+        int leftMargin = first.getX();
+        int rightMargin = BASE_WIDTH - (last.getX() + last.getWidth());
+        assertTrue("row not centered: left=" + leftMargin + " right=" + rightMargin,
+                Math.abs(leftMargin - rightMargin) <= 1);
     }
 
     @Test

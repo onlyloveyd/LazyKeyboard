@@ -203,13 +203,35 @@ public class KeyboardLayout {
                 key.height = heightSpec.resolve(baseWidth);
                 x += gap + key.width;
             }
-            mTotalWidth = Math.max(mTotalWidth, x);
+            centerRow(row, baseWidth, x);
+            int rowRightEdge = row.keys.isEmpty() ? 0
+                    : row.keys.get(row.keys.size() - 1).x + row.keys.get(row.keys.size() - 1).width;
+            mTotalWidth = Math.max(mTotalWidth, rowRightEdge);
             y += verticalGap + rowHeight;
         }
         if (!mRows.isEmpty()) {
             y -= mRows.get(mRows.size() - 1).verticalGap.resolve(baseWidth);
         }
         mTotalHeight = y;
+    }
+
+    /**
+     * 行内居中：按键百分比之和通常小于内容宽度（例如按屏幕宽度调校的布局
+     * 在扣除视图内边距后会整体缩水），把余量平分到左右两侧，
+     * 保证键盘整体看起来居中。行宽超出基准时不平移。
+     */
+    private static void centerRow(Row row, int baseWidth, int advance) {
+        if (row.keys.isEmpty()) {
+            return;
+        }
+        int leadingGap = row.keys.get(0).x;
+        int slack = baseWidth - advance - leadingGap;
+        if (slack > 0) {
+            int shift = slack / 2;
+            for (Key key : row.keys) {
+                key.x += shift;
+            }
+        }
     }
 
     /** 全部按键，按布局文件中的出现顺序排列。 */
