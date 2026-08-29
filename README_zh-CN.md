@@ -117,7 +117,7 @@ Compose 项目可选用 `lazykeyboard-compose` 依赖（核心库保持纯 Java�
 
 ```kotlin
 dependencies {
-    implementation("com.github.onlyloveyd:LazyKeyboard.lazykeyboard-compose:v1.8")
+    implementation("com.github.onlyloveyd.LazyKeyboard:lazykeyboard-compose:v1.8")
     implementation("com.github.onlyloveyd.LazyKeyboard:v1.8")
 }
 ```

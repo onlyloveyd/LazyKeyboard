@@ -117,7 +117,7 @@ For Compose apps, add the optional `lazykeyboard-compose` artifact (the core sta
 
 ```kotlin
 dependencies {
-    implementation("com.github.onlyloveyd:LazyKeyboard.lazykeyboard-compose:v1.8")
+    implementation("com.github.onlyloveyd.LazyKeyboard:lazykeyboard-compose:v1.8")
     implementation("com.github.onlyloveyd.LazyKeyboard:v1.8")
 }
 ```
