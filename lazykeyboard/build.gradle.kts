@@ -47,7 +47,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.onlyloveyd"
             artifactId = "LazyKeyboard"
-            version = "v1.7"
+            version = "v1.8"
 
             afterEvaluate { from(components["release"]) }
         }
